@@ -16,6 +16,7 @@ function connection(ws) {
         console.log(chalk.bgCyan(JSON.stringify(message)  + 'message'))
         switch (message.event) {
             case 'message':
+            case 'quit':
             case 'connection':
                 broadcastMessage(message)
                 break
