@@ -40,8 +40,8 @@ app.get('/', (req, res) => {
     res.send('bot here')
 });
 
-app.listen(PORT, () => {
-    console.log(`Example app listening at http://localhost:${PORT}`)
+app.listen(3001, () => {
+    console.log(`Example app listening at http://localhost:${3001}`)
 });
 
 
