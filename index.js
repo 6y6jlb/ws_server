@@ -1,5 +1,10 @@
 const ws = require('ws')
 const chalk = require('chalk')
+const favicon = require('serve-favicon');
+const express = require('express');
+
+const app = express()
+app.use(favicon(__dirname + '/public/favicon.ico'));
 
 
 const PORT = 5000;
