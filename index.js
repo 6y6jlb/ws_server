@@ -4,15 +4,23 @@ const favicon = require('serve-favicon');
 const express = require('express');
 const cors = require('cors')
 
+
 const app = express()
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(cors())
 
-const PORT = 5000;
 
-const wss = new ws.Server(
-    {port: PORT},
-    () => console.log(chalk.green(`Server started on ${PORT} port.`)));
+
+
+const PORT = process.env.PORT || 3000;
+const INDEX = '/index.html';
+
+const server = express()
+    .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+    .listen(PORT, () => console.log(chalk.green(`Listening on ${PORT}`)));
+
+
+const wss = new ws.Server({server});
 
 wss.on('connection', connection);
 
@@ -36,13 +44,13 @@ function broadcastMessage(message) {
     wss.clients.forEach(client => client.send(JSON.stringify(message)))
 }
 
-app.get('/', (req, res) => {
-    res.send('bot here')
-});
-
-app.listen(3001, () => {
-    console.log(`Example app listening at http://localhost:${3001}`)
-});
+// app.get('/', (req, res) => {
+//     res.send('bot here')
+// });
+//
+// app.listen(PORT, () => {
+//     console.log(`Example app listening at http://localhost:${PORT}`)
+// });
 
 
 
