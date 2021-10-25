@@ -1,5 +1,6 @@
 {
   "name": "ws_server",
+  "homepage": ".",
   "version": "1.0.0",
   "description": "chat",
   "main": "index.js",

@@ -44,6 +44,12 @@ function broadcastMessage(message) {
     wss.clients.forEach(client => client.send(JSON.stringify(message)))
 }
 
+app.use(express.static(__dirname)); //here is important thing - no static directory, because all static :)
+
+app.get("/*", function(req, res) {
+    res.sendFile(path.join(__dirname, "index.html"));
+});
+
 // app.get('/', (req, res) => {
 //     res.send('bot here')
 // });
