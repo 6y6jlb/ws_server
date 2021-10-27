@@ -3,6 +3,7 @@ const chalk = require('chalk')
 const favicon = require('serve-favicon');
 const express = require('express');
 const cors = require('cors')
+const path = require('path')
 
 
 const app = express()
@@ -48,7 +49,7 @@ app.use(express.static(__dirname)); //here is important thing - no static direct
 
 app.get("/*", function(req, res) {
     res.sendFile(path.join(__dirname, "index.html"));
-});
+})
 
 // app.get('/', (req, res) => {
 //     res.send('bot here')
