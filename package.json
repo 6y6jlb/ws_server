@@ -1,10 +1,9 @@
 {
-  "name": "ws_server",
   "homepage": ".",
+  "name": "ws_server",
   "version": "1.0.0",
   "description": "chat",
   "main": "index.js",
-  "proxy": "http://localhost:3000",
   "license": "MIT",
   "scripts": {
     "devStart": "nodemon index.js",
