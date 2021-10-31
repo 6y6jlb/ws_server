@@ -9,7 +9,7 @@ const path = require('path')
 const app = express()
 app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(cors())
-
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 
 
