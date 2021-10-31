@@ -8,7 +8,8 @@ const path = require('path')
 
 const app = express()
 app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(cors())
+app.use(cors());
+
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 
@@ -51,13 +52,13 @@ app.get("/*", function(req, res) {
     res.sendFile(path.join(__dirname, "index.html"));
 })
 
-// app.get('/', (req, res) => {
-//     res.send('bot here')
-// });
-//
-// app.listen(PORT, () => {
-//     console.log(`Example app listening at http://localhost:${PORT}`)
-// });
+app.get('/ping', (req, res) => {
+    res.send('bot here')
+});
+
+app.listen(PORT, () => {
+    console.log(`Example app listening at http://localhost:${PORT}`)
+});
 
 
 
