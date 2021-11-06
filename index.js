@@ -44,7 +44,7 @@ function connection(ws) {
 }
 
 function broadcastMessage(message) {
-    message.connections =  wss.clients.size
+    message.connectionCounter =  wss.clients.size
     wss.clients.forEach(client => client.send(JSON.stringify(message)))
 }
 
