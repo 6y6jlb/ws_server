@@ -27,6 +27,7 @@ const wss = new ws.Server({server});
 wss.on('connection', connection);
 
 function connection(ws) {
+
     ws.on('message', (message) => {
         message = JSON.parse(message);
         console.log(chalk.bgCyan(JSON.stringify(message)))
