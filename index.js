@@ -36,6 +36,7 @@ function onConnection(ws) {
     ws.on('message', (message) => {
         ws.ws_id = wss.getUniqueID();
         message = JSON.parse(message,ws.ws_id);
+        const connectionCounter = wss.clients.size;
         console.log(chalk.bgCyan('message', JSON.stringify(message)))
         switch (message.event) {
             case 'message':
@@ -47,7 +48,8 @@ function onConnection(ws) {
                         console.log(chalk.bgGreen('data saved'))
                     }
                 })
-                broadcastMessage(message)
+                broadcastMessage(newMessage)
+
                 break
             case 'quit':
                 broadcastMessage(message)
@@ -55,12 +57,16 @@ function onConnection(ws) {
             case 'connection':
                 MessageItem.find({})
                     .then((data) => {
+                        const mappedData = data.map(item=>{
+                            return {...item,
+                            connectionCounter}
+                        })
                         ws.send(JSON.stringify(data))
                     })
                     .catch((err) => {
                         console.log(chalk.red(err))
                     })
-                broadcastMessage(message)
+                broadcastMessage({...message,connectionCounter})
                 break
             default:
                 break
@@ -69,8 +75,7 @@ function onConnection(ws) {
 }
 
 function broadcastMessage(message) {
-    message.connectionCounter = message.connections =  wss.clients.size
-    wss.clients.forEach(client => client.send(JSON.stringify([message])))
+    wss.clients.forEach(client => client.send(JSON.stringify([message])));
 }
 
 app.use(express.static(__dirname)); //here is important thing - no static directory, because all static :)
