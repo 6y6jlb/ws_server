@@ -4,4 +4,9 @@
     CONNECTION: 'connection'
 };
 
+ const ROLE = {
+     USER: 'USER',
+     ADMIN: 'ADMIN'
+ };
  module.exports = CONNECTION_TYPE
+ module.exports = ROLE

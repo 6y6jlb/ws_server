@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
 const chalk = require("chalk");
 const CONNECTION_TYPE = require("./utils/type");
+const ROLE = require("./utils/type");
 
-const dbName = process.env.NAME || '===';
-const dbPass = process.env.PASS || '===';
+const dbName = process.env.NAME || "=====";
+const dbPass = process.env.PASS ||  "=====";
 const MONGO_DB_URI = `mongodb+srv://${dbName}:${dbPass}@cluster0.ga7l9.mongodb.net/chat_base?retryWrites=true&w=majority`;
 
 
@@ -28,6 +29,14 @@ const MessageSchema = new Schema({
         default: Date.now()
     }
 }, {collection: 'messages_collection'});
+
+const UserSchema = new Schema({
+    role: typeof ROLE,
+    name: String,
+    pass: String,
+
+}, {collection: 'users_collection'});
+
 
 //model
 const MessageItem = mongoose.model('Message', MessageSchema);
