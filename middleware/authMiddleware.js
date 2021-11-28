@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const {secret} = require('../config');
+const {secret} = require('../mongoose/config');
 
 module.exports = function (req, res, next) {
     if (req.method === 'OPTIONS') {

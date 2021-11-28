@@ -4,8 +4,11 @@ const favicon = require('serve-favicon');
 const express = require('express');
 const cors = require('cors')
 const path = require('path')
-const MessageItem = require('./db')
+const Message = require('./mongoose/Message')
 const authRouter = require('./authRouter')
+const mongoose = require("mongoose");
+const {MONGO_DB_URI} = require('./mongoose/config')
+
 
 
 const PORT = process.env.PORT || 5000;
@@ -21,9 +24,16 @@ const server = express()
     .use((req, res) => res.sendFile(INDEX, {root: __dirname}))
     .listen(PORT, () => console.log(chalk.green(`Listening on ${PORT}`)));
 
-// server.get("/*", function (req, res) {
-//     res.sendFile(path.join(__dirname, "index.html"));
-// })
+
+mongoose.connect(MONGO_DB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+
+mongoose.connection.on('connected', () => {
+    console.log(chalk.greenBright('data base connected ... .'))
+})
+
 
 
 const wss = new ws.Server({server});
@@ -44,7 +54,7 @@ function onConnection(ws) {
         console.log(chalk.bgCyan('message', JSON.stringify(message)))
         switch (message.event) {
             case 'message':
-                const newMessage = new MessageItem(message);
+                const newMessage = new Message(message);
                 newMessage.save((error) => {
                     if (error) {
                         console.log(chalk.red('error', error))
@@ -59,14 +69,9 @@ function onConnection(ws) {
                 broadcastMessage(message)
                 break
             case 'connection':
-                MessageItem.find({})
+                Message.find({}).sort({date: -1}).limit(10)
                     .then((data) => {
-                        const mappedData = data.map(item => {
-                            return {
-                                ...item,
-                                connectionCounter
-                            }
-                        })
+                        console.log(data)
                         ws.send(JSON.stringify(data))
                     })
                     .catch((err) => {

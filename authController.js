@@ -1,10 +1,10 @@
-const User = require('./User');
-const Role = require('./Role');
+const User = require('./mongoose/User');
+const Role = require('./mongoose/Role');
 const bcrypt = require('bcrypt');
 const chalk = require('chalk');
 const {validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
-const {secret} = require('./config');
+const {secret} = require('./mongoose/config');
 
 
 const generateAccessToken = (id, roles) => {
