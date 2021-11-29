@@ -71,7 +71,6 @@ function onConnection(ws) {
             case 'connection':
                 Message.find({}).sort({date: -1}).limit(10)
                     .then((data) => {
-                        console.log(data)
                         ws.send(JSON.stringify(data))
                     })
                     .catch((err) => {

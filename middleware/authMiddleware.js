@@ -11,7 +11,6 @@ module.exports = function (req, res, next) {
             return res.status(403).json({message: 'User not authorized'})
         }
         const decodedData = jwt.verify(token, secret);
-        console.log(decodedData)
         req.user = decodedData;
         next()
     } catch (e) {
