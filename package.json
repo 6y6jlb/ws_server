@@ -13,6 +13,7 @@
     "bcrypt": "^5.0.1",
     "bufferutil": "^4.0.5",
     "chalk": "^4.1.2",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-validator": "^6.13.0",
@@ -21,6 +22,7 @@
     "nodemon": "^2.0.13",
     "serve-favicon": "^2.5.0",
     "utf-8-validate": "^5.0.7",
+    "uuid": "^8.3.2",
     "ws": "^8.2.3"
   },
   "author": "Alexey Basalov <6y6jlb@gmail.com>"

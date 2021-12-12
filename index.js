@@ -4,11 +4,11 @@ const favicon = require('serve-favicon');
 const express = require('express');
 const cors = require('cors')
 const path = require('path')
-const Message = require('./mongoose/Message')
+const Message = require('./mongoose/models/Message')
 const authRouter = require('./authRouter')
 const mongoose = require("mongoose");
 const {MONGO_DB_URI} = require('./mongoose/config')
-
+const cookieParser = require('cookie-parser')
 
 
 const PORT = process.env.PORT || 5000;
@@ -16,7 +16,11 @@ const INDEX = '/index.html';
 
 const server = express()
     .use(favicon(__dirname + '/public/favicon.ico'))
-    .use(cors())
+    .use(cookieParser())
+    .use(cors({
+        credentials: true,
+        origin: 'http://localhost:3000'
+    }))
     .use(express.static(path.join(__dirname, 'client/build')))
     .use(express.json())
     .use('/auth', authRouter)
@@ -33,7 +37,6 @@ mongoose.connect(MONGO_DB_URI, {
 mongoose.connection.on('connected', () => {
     console.log(chalk.greenBright('data base connected ... .'))
 })
-
 
 
 const wss = new ws.Server({server});
@@ -76,7 +79,9 @@ function onConnection(ws) {
                     .catch((err) => {
                         console.log(chalk.red(err))
                     })
-                broadcastMessage({...message, connectionCounter})
+                    setTimeout(()=>{
+                        broadcastMessage({...message, connectionCounter})
+                    },0)
                 break
             default:
                 break
