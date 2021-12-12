@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const {secret} = require('../mongoose/config');
+const ApiError = require('../exceptions/app-error')
+const tokenService = require('../service/token-service')
 
 module.exports = function (req, res, next) {
     if (req.method === 'OPTIONS') {
@@ -8,12 +8,16 @@ module.exports = function (req, res, next) {
     try {
         const token = req.headers.authorization.split(' ')[1];
         if (!token) {
-            return res.status(403).json({message: 'User not authorized'})
+            return next(ApiError.UnauthorizedError())
         }
-        const decodedData = jwt.verify(token, secret);
-        req.user = decodedData;
+        const userData = tokenService.validateAccessToken(token);
+        if (!userData) {
+            next(ApiError.UnauthorizedError())
+        }
+        req.user = userData;
         next()
     } catch (e) {
-        res.status(403).json({message: 'User not authorized'})
+
+        return next(ApiError.UnauthorizedError())
     }
 };

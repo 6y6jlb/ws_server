@@ -1,5 +1,5 @@
 const  {Schema,model} = require('mongoose')
-const CONNECTION_TYPE = require("../utils/type");
+const CONNECTION_TYPE = require("../../utils/type");
 
 const Message = new Schema({
     event: typeof CONNECTION_TYPE,
