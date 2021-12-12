@@ -19,7 +19,7 @@ const server = express()
     .use(cookieParser())
     .use(cors({
         credentials: true,
-        // origin: 'http://localhost:3000'
+        origin: 'https://6y6jlb.github.io/'
     }))
     .use(express.static(path.join(__dirname, 'client/build')))
     .use(express.json())
