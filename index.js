@@ -14,12 +14,28 @@ const cookieParser = require('cookie-parser')
 const PORT = process.env.PORT || 5000;
 const INDEX = '/index.html';
 
+
+const allowedOrigins = ['http://localhost:3000',
+    'https://6y6jlb.github.io'];
+
+
 const server = express()
     .use(favicon(__dirname + '/public/favicon.ico'))
     .use(cookieParser())
     .use(cors({
-        credentials: true,
-        origin: 'https://6y6jlb.github.io:443'
+        withCredentials: true,
+        origin: function (origin, callback) {
+            // allow requests with no origin
+            // (like mobile apps or curl requests)
+            console.log(origin)
+            if (!origin) return callback(null, true);
+            if (allowedOrigins.indexOf(origin) === -1) {
+                const msg = 'The CORS policy for this site does not ' +
+                    'allow access from the specified Origin.';
+                return callback(new Error(msg), false);
+            }
+            return callback(null, true);
+        }
     }))
     .use(express.static(path.join(__dirname, 'client/build')))
     .use(express.json())
@@ -79,9 +95,9 @@ function onConnection(ws) {
                     .catch((err) => {
                         console.log(chalk.red(err))
                     })
-                    setTimeout(()=>{
-                        broadcastMessage({...message, connectionCounter})
-                    },0)
+                setTimeout(() => {
+                    broadcastMessage({...message, connectionCounter})
+                }, 0)
                 break
             default:
                 break
