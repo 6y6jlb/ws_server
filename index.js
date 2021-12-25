@@ -5,7 +5,8 @@ const express = require('express');
 const cors = require('cors')
 const path = require('path')
 const Message = require('./mongoose/models/Message')
-const authRouter = require('./authRouter')
+const authRouter = require('./routers/authRouter')
+const envRouter = require('./routers/envRouter')
 const mongoose = require("mongoose");
 const {MONGO_DB_URI} = require('./mongoose/config')
 const cookieParser = require('cookie-parser')
@@ -41,6 +42,7 @@ const server = express()
     .use(express.static(path.join(__dirname, 'client/build')))
     .use(express.json())
     .use('/auth', authRouter)
+    .use('/utils', envRouter)
     .use(express.static(__dirname)) //here is important thing - no static directory, because all static :)
     .use((req, res) => res.sendFile(INDEX, {root: __dirname}))
     .listen(PORT, () => console.log(chalk.green(`Listening on ${PORT}`)));
