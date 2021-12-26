@@ -1,5 +1,7 @@
 const axios = require('axios')
+const weather = require('./weatherConst')
+
+const baseURL = weather.baseURL;
 
 
-const baseURL = 'https://api.openweathermap.org/data/2.5/weather/';
 module.exports = axios.create({baseURL});

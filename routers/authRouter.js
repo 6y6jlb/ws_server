@@ -18,6 +18,5 @@ router.delete('/logout', authController.logout);
 router.delete('/users', authController.deleteUser);
 router.get('/users',authMiddleware, authController.getUsers);
 
-router.get('/weather',authMiddleware, envController.getWeather);
 
 module.exports = router;
