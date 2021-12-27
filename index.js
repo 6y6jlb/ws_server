@@ -93,14 +93,14 @@ function onConnection(ws) {
             case 'connection':
                 Message.find({}).sort({date: -1}).limit(10)
                     .then((data) => {
-                        ws.send(JSON.stringify(data))
+                        ws.send(JSON.stringify([...data,{...message, connectionCounter}]))
                     })
                     .catch((err) => {
                         console.log(chalk.red(err))
                     })
-                setTimeout(() => {
-                    broadcastMessage({...message, connectionCounter})
-                }, 0)
+                // setTimeout(() => {
+                //     broadcastMessage({...message, connectionCounter})
+                // }, 0)
                 break
             default:
                 break
