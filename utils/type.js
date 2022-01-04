@@ -1,4 +1,4 @@
- const CONNECTION_TYPE = {
+const CONNECTION_TYPE = {
     MESSAGE: 'message',
     QUIT: 'quit',
     CONNECTION: 'connection'
@@ -8,5 +8,4 @@
      USER: 'USER',
      ADMIN: 'ADMIN'
  };
- module.exports = CONNECTION_TYPE
- module.exports = ROLE
+ module.exports = {CONNECTION_TYPE,ROLE}

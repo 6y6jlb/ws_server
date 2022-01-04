@@ -6,22 +6,29 @@ const mailService = require('../service/mail-service')
 const tokenService = require('../service/token-service')
 const UserDTO = require('../dtos/user-dto')
 const ApiError = require('../exceptions/app-error')
+const TYPES = require ('../utils/type')
 
 
 class UserService {
-    async registration(email, password) {
+    async registration({email, password, name, country, city, language}) {
         const candidate = await User.findOne({email})
         if (candidate) {
             throw ApiError.BadRequest(`Пользователь с почтовым адресом ${email} уже существует`)
         }
         const activationLink = uuid.v4()
-        await mailService.sendActivationMail(email,`${process.env.API_URL}/api/activate/${activationLink}`)
-
+        await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`)
         const salt = bcrypt.genSaltSync(4);
         const hashedPassword = bcrypt.hashSync(password, salt);
-        const userRole = await Role.findOne({value: 'USER'})
-
-        const user = await User.create({email, password: hashedPassword,activationLink, roles: [userRole.value]})
+        const userRole = await Role.findOne({value: TYPES.ROLE.USER})
+        const user = await User.create({
+            email,
+            name,
+            location:{country, city,},
+            language,
+            password: hashedPassword,
+            activationLink,
+            roles: [userRole.value]
+        })
         const userDto = new UserDTO(user)
         const tokens = await tokenService.generateTokens({...userDto});
         await tokenService.saveToken(userDto.id, tokens.refreshToken)
@@ -63,8 +70,8 @@ class UserService {
     }
 
     async logout(refreshToken) {
-       const token = await tokenService.removeToken(refreshToken);
-       return token
+        const token = await tokenService.removeToken(refreshToken);
+        return token
     }
 
     async getUsers() {
@@ -72,7 +79,7 @@ class UserService {
     }
 
     async deleteUser(email) {
-     return
+        return
     }
 }
 

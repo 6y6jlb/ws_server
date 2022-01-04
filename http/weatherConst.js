@@ -1,4 +1,3 @@
-const axios = require("axios");
 const weather = {
     weatherUrl:'data/2.5/weather/',
     iconPrefix:'img/wn/',
