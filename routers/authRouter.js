@@ -13,10 +13,10 @@ router.post('/registration', [
 ], authController.registration);
 router.post('/login', authController.login);
 
-router.post('/refresh', authController.refresh);
 router.delete('/logout', authController.logout);
-
 router.delete('/users', authController.deleteUser);
+
+router.get('/refresh', authController.refresh);
 router.get('/users',authMiddleware, authController.getUsers);
 
 

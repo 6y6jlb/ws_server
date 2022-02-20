@@ -8,8 +8,7 @@ class EnvController {
             const requestObj = {
                     language:req.body.language.toLowerCase(),
                     location:{
-                        country:req.body.location.country.slice(0,2).toUpperCase(),city:req.body.location.city}};
-            console.log(requestObj);
+                        country:req.body.location.country?.slice(0,2)?.toUpperCase(),city:req.body.location.city}} || 'ru';
             const weatherObject = await envService.getWeather(requestObj);
             return res.status(200).json(weatherObject.data);
         } catch (e) {

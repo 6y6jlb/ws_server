@@ -19,12 +19,11 @@ const server = express()
     .use(favicon(__dirname + '../../public/favicon.ico'))
     .use(cookieParser())
     .use(cors({
-        withCredentials: true,
+        credentials: true,
         secure:true,
         origin: function (origin, callback) {
             // allow requests with no origin
             // (like mobile apps or curl requests)
-            console.log(origin)
             if (!origin) return callback(null, true);
             if (allowedOrigins.indexOf(origin) === -1) {
                 const msg = 'The CORS policy for this site does not ' +
