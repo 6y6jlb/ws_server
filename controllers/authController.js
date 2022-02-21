@@ -13,7 +13,7 @@ class AuthController {
             }
             const {email, password,country, city, language,name} = req.body;
            const userData = await userService.registration({email, password,name, country, city, language})
-            await res.cookie('refreshToken', userData.refreshToken, {maxAge: refreshTokenAge, httpOnly: false})
+            await res.cookie('refreshToken', userData.refreshToken, {maxAge: refreshTokenAge, httpOnly: true})
             return res.status(200).json(userData);
         } catch (e) {
             next(e);
@@ -24,7 +24,7 @@ class AuthController {
         try {
             const {email, password} = req.body;
             const userData = await userService.login(email,password);
-            res.cookie('refreshToken', userData.refreshToken, {maxAge: refreshTokenAge, httpOnly: false})
+            res.cookie('refreshToken', userData.refreshToken, {maxAge: refreshTokenAge, httpOnly: true})
             return res.status(200).json(userData);
         } catch (e) {
             next(e)
@@ -34,9 +34,9 @@ class AuthController {
     async logout(req,res,next) {
         try {
             const {refreshToken} = req.cookies;
-            console.log(refreshToken, 'refresh token')
+        //main browsers limit coolie for heroku and this construction didnt work
             const token = await userService.logout(refreshToken);
-            // res.clearCookie('refreshToken');
+            res.clearCookie('refreshToken');
             return res.status(200).json(token);
         } catch (e) {
             next(e)
