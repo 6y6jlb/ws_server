@@ -34,7 +34,7 @@ class AuthController {
     async logout(req,res,next) {
         try {
             const {refreshToken} = req.cookies;
-        //main browsers limit coolie for heroku and this construction didnt work
+        //main browsers limit coolie for heroku and this construction didn`t work
             const token = await userService.logout(refreshToken);
             res.clearCookie('refreshToken');
             return res.status(200).json(token);
